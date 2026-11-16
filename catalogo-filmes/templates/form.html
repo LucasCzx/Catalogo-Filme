@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block titulo %}{{ "Editar filme" if editando else "Novo filme" }}{% endblock %}
+
+{% block conteudo %}
+<style>
+  form.card { background: var(--card); border: 1px solid var(--borda); border-radius: 8px; padding: 24px; max-width: 520px; }
+  label { display: block; margin: 14px 0 6px; color: var(--muted); font-size: .9rem; }
+  input { width: 100%; padding: 10px; border-radius: 6px; border: 1px solid var(--borda);
+          background: var(--bg); color: var(--texto); font-size: 1rem; }
+  .botoes { margin-top: 22px; display: flex; gap: 10px; }
+</style>
+
+<h2>{{ "Vamos editar o filme" if editando else "Cadastre um novo filme" }}</h2>
+
+<form class="card" method="post">
+  <label for="titulo">Título</label>
+  <input id="titulo" name="titulo" required value="{{ filme['titulo'] if filme else '' }}">
+
+  <label for="genero">Gênero</label>
+  <input id="genero" name="genero" required value="{{ filme['genero'] if filme else '' }}">
+
+  <label for="ano">Ano de lançamento</label>
+  <input id="ano" name="ano" type="number" min="1888" max="2100" required
+         value="{{ filme['ano'] if filme else '' }}">
+
+  <label for="nota">Nota (1 a 10)</label>
+  <input id="nota" name="nota" type="number" min="1" max="10" required
+         value="{{ filme['nota'] if filme else '' }}">
+
+  <div class="botoes">
+    <button class="btn" type="submit">Salvar</button>
+    <a class="btn sec" href="{{ url_for('index') }}">Cancelar</a>
+  </div>
+</form>
+{% endblock %}

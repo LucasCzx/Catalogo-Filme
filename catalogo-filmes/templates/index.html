@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block conteudo %}
+<h2>Meus filmes ({{ filmes|length }})</h2>
+
+{% if filmes %}
+<style>
+  table { width: 100%; border-collapse: collapse; background: var(--card); border: 1px solid var(--borda); border-radius: 8px; overflow: hidden; }
+  th, td { padding: 12px 14px; text-align: left; border-bottom: 1px solid var(--borda); }
+  th { color: var(--muted); font-weight: 600; font-size: .85rem; text-transform: uppercase; }
+  tr:last-child td { border-bottom: none; }
+  .acoes { display: flex; gap: 8px; }
+  .acoes form { margin: 0; }
+</style>
+<table>
+  <thead>
+    <tr><th>Título</th><th>Gênero</th><th>Ano</th><th>Nota</th><th>Ações</th></tr>
+  </thead>
+  <tbody>
+    {% for filme in filmes %}
+    <tr>
+      <td>{{ filme["titulo"] }}</td>
+      <td>{{ filme["genero"] }}</td>
+      <td>{{ filme["ano"] }}</td>
+      <td>⭐ {{ filme["nota"] }}/10</td>
+      <td class="acoes">
+        <a class="btn sec" href="{{ url_for('editar', id=filme['id']) }}">Editar</a>
+        <form method="post" action="{{ url_for('excluir', id=filme['id']) }}"
+              onsubmit="return confirm('Tem certeza que quer excluir este filme?');">
+          <button class="btn perigo" type="submit">Excluir</button>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p style="color: var(--muted)">Ainda não tem nenhum filme por aqui. Que tal cadastrar o primeiro? Clique em “+ Novo filme”. 🍿</p>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block titulo %}Catálogo de Filmes{% endblock %}</title>
+  <style>
+    :root {
+      --bg: #0d1117; --card: #161b22; --borda: #30363d;
+      --texto: #e6edf3; --muted: #8b949e; --destaque: #2f81f7;
+      --ok: #3fb950; --erro: #f85149;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: system-ui, sans-serif; background: var(--bg); color: var(--texto); }
+    nav { display: flex; justify-content: space-between; align-items: center;
+          padding: 14px 24px; background: var(--card); border-bottom: 1px solid var(--borda); }
+    nav a.logo { color: var(--texto); font-weight: 700; text-decoration: none; font-size: 1.1rem; }
+    main { max-width: 900px; margin: 32px auto; padding: 0 16px; }
+    .btn { display: inline-block; padding: 8px 14px; border-radius: 6px; border: 1px solid var(--borda);
+           background: var(--destaque); color: #fff; text-decoration: none; cursor: pointer; font-size: .9rem; }
+    .btn.sec { background: transparent; color: var(--texto); }
+    .btn.perigo { background: transparent; color: var(--erro); border-color: var(--erro); }
+    .msg { padding: 10px 14px; border-radius: 6px; margin-bottom: 16px; border: 1px solid; }
+    .msg.ok { color: var(--ok); border-color: var(--ok); }
+    .msg.erro { color: var(--erro); border-color: var(--erro); }
+  </style>
+</head>
+<body>
+  <nav>
+    <a class="logo" href="{{ url_for('index') }}">🎬 Catálogo de Filmes</a>
+    <a class="btn" href="{{ url_for('novo') }}">+ Novo filme</a>
+  </nav>
+  <main>
+    {% with mensagens = get_flashed_messages(with_categories=true) %}
+      {% for categoria, texto in mensagens %}
+        <div class="msg {{ categoria }}">{{ texto }}</div>
+      {% endfor %}
+    {% endwith %}
+    {% block conteudo %}{% endblock %}
+  </main>
+</body>
+</html>
